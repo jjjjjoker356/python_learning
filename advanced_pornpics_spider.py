@@ -1,6 +1,5 @@
+import requests
 
-import json,requests
-from bs4 import BeautifulSoup
 
 def download_album_url(name, total=10):
     """ 下载某页面的信息 """
@@ -14,5 +13,3 @@ def download_album_url(name, total=10):
             root_url.append(item['g_url'])
         print('\r'+'进度:'+str((i+1)*100/total)+'%', end='')
     return root_url
-
-

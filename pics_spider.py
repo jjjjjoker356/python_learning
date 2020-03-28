@@ -1,13 +1,16 @@
-from selenium import webdriver
-import time, requests
-from bs4 import BeautifulSoup
+import time
+import requests
 import os
 import urllib.request
 import ssl
+from bs4 import BeautifulSoup
 import advanced_pornpics_spider
+
 
 class SPIDER():
     ssl._create_default_https_context = ssl._create_unverified_context
+
+
     def spider(person):
         name = str(person)
         search_name = name.replace(' ', '+')
@@ -32,8 +35,8 @@ class SPIDER():
                 else:
                     pass
 
-            perr = 100* ic/len(album_link)
-            perrr= float('%.2f'%perr)
+            perr = 100*ic/len(album_link)
+            perrr= float('%.2f' % perr)
             jindu = '获取图组进度：' + str(perrr) + '%'
             print('\r'+ jindu, end='')
         print('')
