@@ -11,7 +11,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 
 def download_album_url(name, total=10):
-    """ 下载某页面的信息 """
+    """ 下载某人的图组url """
     url0 = 'https://www.pornpics.com/search/srch.php?q='+str(name)+'&limit=20&offset='
     root_url = []
     for i in range(total):
@@ -24,10 +24,11 @@ def download_album_url(name, total=10):
     return root_url
 
 
-def spider(person):
+def spider(person, rpath='/Applications/Pornpics/'):
+    """下载每个图组中包括的图片的url"""
     name = str(person)
     search_name = name.replace(' ', '+')
-    album_link = advanced_pornpics_spider.download_album_url(search_name,)                       #所有系列的根url
+    album_link = download_album_url(search_name)                       #所有系列的根url
     final_url_link = []                                        #最终所有图片的url
     print('\n正在获取各图组！')
     ic = 0
@@ -53,16 +54,15 @@ def spider(person):
         jindu = '获取图组进度：' + str(perrr) + '%'
         print('\r'+ jindu, end='')
     print('')
-    root_path ='/Applications/Pornpics/'
+    root_path = rpath
     path = root_path + person
     if os.path.exists(path):
         print('已存在'+person+'的文件夹')
     else:
         os.mkdir(path)
         print('已创建'+person+'的文件夹')
-
     i = 0
-    ALL = len(final_url_link)
+    total_len = len(final_url_link)
     total_time = 0
 
     for links in final_url_link:
@@ -80,7 +80,7 @@ def spider(person):
                 break
             pass
 
-        per = float(float(i)/float(ALL) * 100)
+        per = float(float(i)/float(total_len) * 100)
         percent = str('%.2f' % per)
         strc = '下载进度：'+percent+'%' + '//**//**//' + '正在下载第' + str(i) + '张图片'
         end_time = time.time()
@@ -101,8 +101,7 @@ def spider(person):
 def main():
     person = input('输入搜索的人名（多个人名用逗号分割）:')
     person_list = person.split(',')
-    for i in range(len(person_list)):
-        person = person_list[i]
+    for person in person_list:
         spider(person)
         print('')
         print('已下载'+person +'图组并存储于Applications/Pornpics/同名文件夹下')
