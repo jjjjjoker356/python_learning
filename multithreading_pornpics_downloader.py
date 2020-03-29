@@ -38,11 +38,10 @@ class SPIDER(threading.Thread):
         i = 0
         total_len = len(url_list)
         total_time = 0
+        path += '/'
         for links in url_list:
             start_time = time.time()
             url = links
-
-            path += '/'
             i += 1
             file_name = path + person + str(i) + '.jpg'
             try:
@@ -71,7 +70,7 @@ class SPIDER(threading.Thread):
                   end='')
         else:
             pass
-        print('\n'+'已爬取' + person + '图组并存储于Applications/multithreads/同名文件夹下'++'\n'+'**********爬取完成**********'+'\n')
+        print('\n'+'已爬取' + person + '图组并存储于Applications/multithreads/同名文件夹下'+'\n'+'**********爬取完成**********'+'\n')
 
     def spider(self, current_name):
         person = current_name
