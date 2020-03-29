@@ -4,16 +4,30 @@ import os
 import urllib.request
 import ssl
 from bs4 import BeautifulSoup
-import advanced_pornpics_spider
+
 
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
+def download_album_url(name, total=10):
+    """ 下载某页面的信息 """
+    url0 = 'https://www.pornpics.com/search/srch.php?q='+str(name)+'&limit=20&offset='
+    root_url = []
+    for i in range(total):
+        url = url0 + str(20*i)
+        web = requests.get(url)
+        web.encoding = web.apparent_encoding
+        for item in web.json():
+            root_url.append(item['g_url'])
+        print('\r'+'进度:'+str((i+1)*100/total)+'%', end='')
+    return root_url
+
+
 def spider(person):
     name = str(person)
     search_name = name.replace(' ', '+')
-    album_link = advanced_pornpics_spider.download_album_url(search_name)                       #所有系列的根url
+    album_link = advanced_pornpics_spider.download_album_url(search_name,)                       #所有系列的根url
     final_url_link = []                                        #最终所有图片的url
     print('\n正在获取各图组！')
     ic = 0
@@ -39,12 +53,14 @@ def spider(person):
         jindu = '获取图组进度：' + str(perrr) + '%'
         print('\r'+ jindu, end='')
     print('')
-    path = '/Applications/Pornpics/' + person
+    root_path ='/Applications/Pornpics/'
+    path = root_path + person
     if os.path.exists(path):
         print('已存在'+person+'的文件夹')
     else:
         os.mkdir(path)
         print('已创建'+person+'的文件夹')
+
     i = 0
     ALL = len(final_url_link)
     total_time = 0
@@ -96,4 +112,5 @@ def main():
         print('********************所有下载完成********************')
 
 
-main()
+if __name__ == '__main__':
+    main()
