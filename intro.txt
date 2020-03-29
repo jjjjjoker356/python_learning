@@ -3,5 +3,5 @@ Make sure you have followed modules:
 
 time, requests,os,urllib.request,ssl
 
-You need to download pics_spider.py and advanced_pornpics_spider.py
-pics_spider.py will later be merged in to advanced_pornpics_spider.py, I just forget to merger them.
+You need to download pics_spider.py.
+
