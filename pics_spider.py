@@ -6,10 +6,16 @@ import ssl
 import threading
 from bs4 import BeautifulSoup
 
-
+'''kat dior,holly michaels,kali renee,lynna nilsson,harmony wonder,
+   '''
 ssl._create_default_https_context = ssl._create_unverified_context
 BASEDIR = '/Applications/Pornpics/'
 #BASEDIR = os.getcwd() + '/pornpics/'     #发布版本
+temp_str = '目前存在目录'+BASEDIR+'下, 若要更改请输入新文件夹路径: '
+c_dir = input(temp_str)
+if c_dir:
+    BASEDIR = temp_str
+
 '''
 if os.path.exists(BASEDIR):
     pass
@@ -41,7 +47,31 @@ def load_flag(person, rpath=BASEDIR):
     return flag
 
 
-def download_album_url(name, total=20):
+def getTopPornstars(maxium_page=10):
+    """获取前十页的女星"""
+    _name = []
+    _num = []
+    tname = []
+    tnum = []
+    url0 = 'https://www.pornpics.com/pornstars/'
+    for i in range(maxium_page):
+        url = url0+str(i)+'/'
+        try:
+            web = requests.get(url)
+            web.encoding = web.apparent_encoding
+            soup = BeautifulSoup(web.text,'html.parser')
+            tname = soup.find_all(name="span", attrs={"class": "m-name"})
+            _name += tname
+            tnum = soup.find_all(name="i", answer={"class": "icon icon-galleries"})
+            _num += tnum
+        except:
+            pass
+    answer = zip(tname, tnum)
+    #raise ValueError('Can't find any pornstar')
+    return answer
+
+
+def download_album_url(name, total=8):
     """ 下载某人的图组url """
     url0 = 'https://www.pornpics.com/search/srch.php?q='+str(name)+'&limit=20&offset='
     root_url = []
@@ -183,8 +213,6 @@ def spider(person, rpath=BASEDIR):
 
 
 def main():
-
-    print('目前存在目录', BASEDIR, '下')
     person = input('输入搜索的人名（多个人名用逗号分割）:')
     person_list = person.split(',')
     for person in person_list:
