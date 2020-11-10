@@ -6,6 +6,8 @@ import ssl
 import threading
 from bs4 import BeautifulSoup
 
+'''version 2020.11.11'''
+
 '''kat dior,holly michaels,kali renee,lynna nilsson,harmony wonder,
    '''
 ssl._create_default_https_context = ssl._create_unverified_context
